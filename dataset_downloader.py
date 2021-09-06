@@ -11,6 +11,6 @@ folder = "rawdata/"
 
 names = []
 
-with open("folders.txt",'r') as f:
+with open("names.txt",'r') as f:
     names = f.read().split('\n')
 

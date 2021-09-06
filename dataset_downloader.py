@@ -9,3 +9,8 @@ base_link = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/{
 #the folder directory where our images will go
 folder = "rawdata/"
 
+names = []
+
+with open("folders.txt",'r') as f:
+    names = f.read().split('\n')
+

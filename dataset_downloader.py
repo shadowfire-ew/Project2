@@ -34,5 +34,5 @@ if __name__ == "__main__":
                 print("finished saving to",destination)
             
             else:
-                print("could not retrieve from",destination)
+                print("could not retrieve from",url)
     input()

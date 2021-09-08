@@ -39,5 +39,7 @@ if __name__ == "__main__":
             else:
                 # print("could not retrieve from",url)
                 misses.append(name)
-    print(misses)
-    input()
+    
+    with open("misses.txt",'w') as f:
+        for miss in misses:
+            f.write(miss)

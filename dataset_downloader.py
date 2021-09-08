@@ -18,7 +18,8 @@ if __name__ == "__main__":
     for name in names:
         destination = folder+name+".tif"
         if exists(destination):
-            print(destination,"already exists")
+            #print(destination,"already exists")
+            pass
         else:
             url = base_link.format(fname=name)
             print("retrieving",name,"from",url)

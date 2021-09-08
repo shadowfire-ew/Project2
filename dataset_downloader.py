@@ -12,17 +12,19 @@ folder = "rawdata/"
 if __name__ == "__main__":
     names = []
 
+    misses=[]
+
     with open("names.txt",'r') as f:
         names = f.read().split('\n')
 
     for name in names:
         destination = folder+name+".tif"
         if exists(destination):
-            #print(destination,"already exists")
+            # print(destination,"already exists")
             pass
         else:
             url = base_link.format(fname=name)
-            print("retrieving",name,"from",url)
+            # print("retrieving",name,"from",url)
             req = requests.get(url,stream=True)
 
             if req.status_code == 200:
@@ -32,8 +34,10 @@ if __name__ == "__main__":
                 with open(destination,'wb') as f:
                     shutil.copyfileobj(req.raw,f)
                 
-                print("finished saving to",destination)
+                # print("finished saving to",destination)
             
             else:
-                print("could not retrieve from",url)
+                # print("could not retrieve from",url)
+                misses.append(name)
+    print(misses)
     input()

@@ -42,4 +42,4 @@ if __name__ == "__main__":
     
     with open("misses.txt",'w') as f:
         for miss in misses:
-            f.write(miss)
+            f.write(miss+'\n')

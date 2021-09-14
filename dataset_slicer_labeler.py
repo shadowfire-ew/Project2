@@ -1,9 +1,4 @@
-from PIL import Image
-
 import numpy as np
-
-# disabling the limit temporarily
-Image.MAX_IMAGE_PIXELS = None
 
 class ImageSet:
     """
@@ -58,6 +53,3 @@ class ImageSet:
 
 if __name__ == "__main__":
     m=ImageSet()
-
-# re-enabling the limit just in case
-Image.MAX_IMAGE_PIXELS = 89478485

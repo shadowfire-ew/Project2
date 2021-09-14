@@ -36,6 +36,7 @@ class ImageSet:
         after getting the slice, it will itterate the offset(s)
         it will avoid corners/edges with missing peices
         all slices will be centered within the cCenter image
+        will return "done" when it cannot get any more new slices
         """
     
     def addLabel(self,name,polygon):

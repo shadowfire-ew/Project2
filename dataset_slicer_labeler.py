@@ -5,7 +5,7 @@ class ImageSet:
     this class will hold onto a set of images
 
     """
-    def __init__(self,sliceSize):
+    def __init__(self,sliceSize, sliceStep):
         self._images = [[None,None,None],
                         [None,None,None],
                         [None,None,None]]
@@ -15,6 +15,7 @@ class ImageSet:
         self._xOffset = 0
         self._yOffset = 0
         self._sliceSize = sliceSize
+        self._sliceStep = sliceStep
         self._labels=[]
     
     def loadGroup(self,name):

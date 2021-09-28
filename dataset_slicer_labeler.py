@@ -27,6 +27,7 @@ class ImageSet:
         # the size of (one side of) our square slices (should be in pixels)
         self._sliceSize = sliceSize
 
+        # how many pixels we move in each step
         self._sliceStep = sliceStep
 
         # our polygon lookup dict

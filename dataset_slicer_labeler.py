@@ -162,4 +162,4 @@ class ImageSet:
             raise TypeError
 
 if __name__ == "__main__":
-    m=ImageSet()
+    m=ImageSet(100,33)

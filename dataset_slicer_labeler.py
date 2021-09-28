@@ -6,17 +6,30 @@ class ImageSet:
 
     """
     def __init__(self,sliceSize, sliceStep):
+        # this array holds our numpy arrays of the images
         self._images = [[None,None,None],
                         [None,None,None],
                         [None,None,None]]
+        
+        # this array holds our rasterio objects
         self._names = [ [None,None,None],
                         [None,None,None],
                         [None,None,None]]
+        
+        # our internal offset for position
+        # used as our center
+        # technically stored as pixel location, but this is easy to convert to geo-coordinates
         self._xOffset = 0
         self._yOffset = 0
+
+        # the size of (one side of) our square slices (should be in pixels)
         self._sliceSize = sliceSize
+
         self._sliceStep = sliceStep
-        self._labels=[]
+
+        # our polygon lookup dict
+        # used for labeling points
+        self._labels={}
     
     def loadGroup(self,name):
         """

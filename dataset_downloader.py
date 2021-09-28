@@ -10,6 +10,9 @@ base_link = "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/{
 #the folder directory where our images will go
 folder = "rawdata/"
 
+def get_path(name):
+    return folder+name+".tif"
+
 if __name__ == "__main__":
     # just the names of the data files
     names = []
@@ -37,7 +40,7 @@ if __name__ == "__main__":
 
     for name in names:
         # where we want to save the file
-        destination = folder+name+".tif"
+        destination = get_path(name)
         # these destinations ignore the date from the files which had a date in their name from the source
 
         if exists(destination):

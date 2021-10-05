@@ -5,7 +5,6 @@ from os.path import exists
 class ImageSet:
     """
     this class will hold onto a set of images
-
     """
     def __init__(self,sliceSize, sliceStep):
         # this array holds our numpy arrays of the images

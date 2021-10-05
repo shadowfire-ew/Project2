@@ -112,10 +112,10 @@ class ImageSet:
                     # after that math, we build our new name, formatted like
                     nname = ydir + str(ylab).zfill(2) + xdir + str(xlab).zfill(3)
                     # getting the relative path
-                    pname = get_path(name)
+                    pname = get_path(nname)
                     # only try to open the file if it exists
                     if exists(pname):
-                        self._names[y][x] = rio.open(get_path(nname))
+                        self._names[y][x] = rio.open(pname)
 
         # here is where we open the images
         for x in range(3):

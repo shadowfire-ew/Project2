@@ -60,6 +60,7 @@ class ImageSet:
             # now that we have our offset, time to fix our arrays
             if shift is not None:
                 # if we find that we already loaded the image we want
+                print("shifting by {a}".format(a=shift))
 
                 if shift == (0,0):
                     # in the odd case where we are trying to load the image that is already centered
@@ -94,6 +95,9 @@ class ImageSet:
         else:
             # this is the first array time loading the data
             self._names[1][1] = rio.open(get_path(name))
+        
+        #checking that our names shifted correctly
+        self._printLabels()
 
         # here is where we open the neighbors that can and need to be loaded
         cx = int(name[4:7])

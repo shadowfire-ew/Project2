@@ -41,7 +41,7 @@ class ImageSet:
         this would recenter our focused name and put Nones in the unloaded images' spaces
         if the name is not in our names set, it will reload the entire array of images
 
-        name will be just the name as it appears in our
+        name will be just the name as it appears in our names.txt
         """
         if self._names[1][1] is not None:
             # when we already have loaded some info

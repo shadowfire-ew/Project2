@@ -94,7 +94,7 @@ class ImageSet:
 
         # here is where we open the neighbors that can and need to be loaded
         cx = int(name[4:7])
-        cy = int(name[1,3])
+        cy = int(name[1:3])
         for x in range(3):
             for y in range(3):
                 if self._names[y][x] is None:

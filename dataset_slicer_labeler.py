@@ -1,5 +1,6 @@
 import numpy as np
 import rasterio as rio
+import shapely as sly
 from dataset_downloader import get_path
 from os.path import exists
 class ImageSet:

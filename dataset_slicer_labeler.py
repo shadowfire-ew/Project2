@@ -163,16 +163,22 @@ class ImageSet:
             self._labels[name]=polygon
         else:
             raise TypeError
+    
+    def _printLabels(self):
+        for y in range(3):
+            for x in range(3):
+                if self._names[y][x] is not None:
+                    print("m_{x},{y}:".format(x=x,y=y)+self._names[y][x].name, end="\t")
+                else:
+                    print("m_{x},{y}:".format(x=x,y=y)+str(self._names[y][x]), end="\t\t\t")
+            print()
 
 if __name__ == "__main__":
     print("\n\n")
     m=ImageSet(100,33)
-    m.loadGroup("n23w160")
-    for y in range(3):
-        for x in range(3):
-            if m._names[y][x] is not None:
-                print("m_{x},{y}:".format(x=x,y=y)+m._names[y][x].name, end="\t")
-            else:
-                print("m_{x},{y}:".format(x=x,y=y)+str(m._names[y][x]), end="\t\t\t")
-        print()
-        
+    m.loadGroup("n31w093")
+    m._printLabels()
+    print()
+    m.loadGroup("n32w093")
+    m._printLabels()
+    print()

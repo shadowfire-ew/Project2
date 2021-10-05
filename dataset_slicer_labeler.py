@@ -48,12 +48,14 @@ class ImageSet:
 
             # check to see if we already loaded the image
             shift = None
-            for x in [-1,0,1]:
+            for y in range(3):
                 brk = False
-                for y in [-1,0,1]:
-                    if name in self._names[y+1][x+1].name:
+                for x in range(3):
+                    if (self._names[y][x] is not None) and (name in self._names[y][x].name):
                         brk = True
-                        shift = (x,y)
+                        xshift = -1*(x-1)
+                        yshift = -1*(y-1)
+                        shift = (xshift,yshift)
                         break
                 if brk:
                     break

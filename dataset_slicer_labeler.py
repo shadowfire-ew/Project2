@@ -88,6 +88,9 @@ class ImageSet:
                             self._names[destY][destX] = tempnames[y][x]
                             self._images[destY][destX] = tempimages[y][x]
                 # after all that, we are have properly prepared the array for the next step
+                # forcing garbage collector to come through
+                tempnames=None
+                tempimages=None
         else:
             # this is the first array time loading the data
             self._names[1][1] = rio.open(get_path(name))

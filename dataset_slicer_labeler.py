@@ -146,6 +146,9 @@ class ImageSet:
         all slices will be centered within the cCenter image
         will return None,None when it cannot get any more new slices
         """
+
+    def getCurrentOffset(self):
+        return self._xOffset,self._yOffset
     
     def addLabel(self,name,polygon):
         """

@@ -78,8 +78,8 @@ class ImageSet:
                               [None,None,None]]
                 # a range for easy checking
                 t = range(3)
-                for x in t:
-                    for y in t:
+                for y in t:
+                    for x in t:
                         # get our destination according to the shift
                         destX = x+shift[0]
                         destY = y+shift[1]
@@ -125,8 +125,8 @@ class ImageSet:
                         self._names[y][x] = rio.open(pname)
 
         # here is where we open the images
-        for x in range(3):
-            for y in range(3):
+        for y in range(3):
+            for x in range(3):
                 if (self._names[y][x] is not None) and (self._images[y][x] is None):
                     # we only want to try to lead images that exist and are not already loaded
                     self._images[y][x] = self._names[y][x].read(1)

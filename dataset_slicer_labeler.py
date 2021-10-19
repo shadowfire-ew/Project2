@@ -166,11 +166,19 @@ class ImageSet:
         
         this function can also be called externally of getNextSlice for test data
         """
+        # get the matrix location
         rtuple = (self._xOffset,self._yOffset)
-        # move the x over if we can
-        # otherwise, move the y over
-        # else, move on to the next
-    
+        # get the geopos location of our offset
+        gpx,gpy = 0,0 #TODO: replace with method from rasterio
+        # translate that to the label
+        rlabel = None #TODO: replace with method from shaply
+        # change the position
+        # tranlsate x by step
+        # if we cannot do that:
+        #   we move y by step
+        #   we change the direction for x steps
+        # if that fails: we move on to the next set? TODO
+
     def getCurrentOffset(self):
         return self._xOffset,self._yOffset
     

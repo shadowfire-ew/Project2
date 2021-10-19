@@ -155,7 +155,22 @@ class ImageSet:
         all slices will be centered within the cCenter image
         will return None,None when it cannot get any more new slices
         """
-
+    
+    def getNextLabel(self):
+        """
+        this function iterates our internal counters wthin getNextSlice
+        it returns 3 things:
+            - the internal offsets as a tuple
+            - the label for those offsets
+            - the name of the file it belongs to
+        
+        this function can also be called externally of getNextSlice for test data
+        """
+        rtuple = (self._xOffset,self._yOffset)
+        # move the x over if we can
+        # otherwise, move the y over
+        # else, move on to the next
+    
     def getCurrentOffset(self):
         return self._xOffset,self._yOffset
     

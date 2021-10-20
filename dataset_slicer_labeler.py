@@ -171,13 +171,24 @@ class ImageSet:
         # get the geopos location of our offset
         gpx,gpy = 0,0 #TODO: replace with method from rasterio
         # translate that to the label
-        rlabel = None #TODO: replace with method from shaply
+        rlabel = None 
+        # iterate through labeling shapes
+        for dlabel in self._labels.keys:
+            #TODO: use correct shapely function for checking positions in shapes
+            if (self._labels[dlabel] == True):
+                rlabel = dlabel
+                break
+        # if the loop goes all the way through, we do not have a label for the geopos
         # change the position
         # tranlsate x by step
         # if we cannot do that:
         #   we move y by step
         #   we change the direction for x steps
-        # if that fails: we move on to the next set? TODO
+        # if that fails:
+        #   - set positions to None?
+        #   - restart image?
+        # TODO: determine which thing to do. ask mina when possible
+        return rtuple, rlabel, self._names[1][1].name
 
     def getCurrentOffset(self):
         return self._xOffset,self._yOffset

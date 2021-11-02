@@ -1,0 +1,9 @@
+some thoughts on how i will approach training on this data
+
+i will go through the entire dataset per epoch
+save the output and target to list for each slice
+compute the cost and backpropogate at the end of the epoch
+delete the output/target list
+start new epoch at begining of dataset
+
+would this be faster/easier in c/c++?

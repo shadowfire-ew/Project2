@@ -6,4 +6,13 @@ compute the cost and backpropogate at the end of the epoch
 delete the output/target list
 start new epoch at begining of dataset
 
+idea: train mutliple different hypotheses in same epoch
+i.e., the output matrix would look something like this: (for n hypotheses and k training points)
+[[<intended label_0>, <label_0 from h_0>, <label_0 from h_1>,...<label_0 from h_n>],
+ [<intended label_1>, <label_1 from h_0>, <label_1 from h_1>,...<label_1 from h_n>],
+ ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ...
+ [<intended label_k>, <label_k from h_0>, <label_k from h_1>,...<label_k from h_n>]]
+
+thinking point for final: what benefit does this offer over training seperately?
+
 would this be faster/easier in c/c++?

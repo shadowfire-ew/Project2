@@ -7,6 +7,7 @@ def sigmoid(val):
 class NeuralNetwork:
     """
     a class that handles the neural network features and functions
+    uses arrays rather than vectors
     """
     def __init__(self,sizes=(1,1)):
         """

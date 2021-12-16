@@ -122,10 +122,23 @@ class NeuralNetwork:
             regularizer[0] = np.zeros(len(regularizer[0]))
             # apply the regularization term to the derivative
             derivative[ind]+=regularizer
+        self._m=0
+        self._resetDeltas()
         return derivative
 
 
         
+    def Descend(self,derivative,alpha):
+        """
+        applies gradient descent to thetas
+        multiplies the derviative by alpha
+        then adds that to theta
+        """  
+        if len(derivative) != len(self._thetas):
+            print("Wrong derivative")
+            raise Exception
+        for i in range(len(self._thetas)):
+            self._thetas[i] += derivative[i]*alpha
             
 
 if __name__ == "__main__":
@@ -148,8 +161,16 @@ if __name__ == "__main__":
     x = np.array([0.6,0.9,0.1])
     y = np.array([1])
     y1 = testNN.ForwardProp(x)
-    print(type(y1))
-    print(y-y1)
+    print("init hypothesis",y1)
+    print("init dif",y-y1)
+    print("getting backprop")
     testNN.BackProp(y1,y)
+    print("getting derivative")
     deriva = testNN.Derive(1,1)
-    print(deriva)
+    print("derivative",deriva)
+    print("applying gradient descent")
+    testNN.Descend(deriva,0.1)
+    y2 = testNN.ForwardProp(x)
+    print("new hypothesis",y2)
+    print("new dif",y-y2)
+    print("differences in difs",(y-y1)-(y-y2))

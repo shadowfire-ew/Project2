@@ -11,7 +11,7 @@ class NeuralNetwork:
     """
     def __init__(self,sizes=(1,1)):
         """
-        takes an input luplte of sizes
+        takes an input tuple of sizes
         needs to be at least len 2
         index[0] = input number
         index[-1] = output number

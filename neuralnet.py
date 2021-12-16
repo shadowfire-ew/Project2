@@ -1,4 +1,9 @@
 import numpy as np
+import matplotlib.pyplot as plt
+
+def sigmoid(val):
+    return(1/(1+np.exp(-val)))
+
 class NeuralNetwork:
     """
     a class that handles the neural network features and functions
@@ -28,3 +33,12 @@ if __name__ == "__main__":
     testNN = NeuralNetwork((3,2,1))
     for arr in testNN._thetas:
         print(arr.shape)
+    """--------
+    # test sigmoid
+    x = np.linspace(-10,10,100)
+    z = sigmoid(x)
+    plt.plot(x,z)
+    plt.xlabel("X")
+    plt.ylabel("Sigmoid(X)")
+    plt.show()
+    #"""

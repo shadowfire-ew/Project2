@@ -16,6 +16,7 @@ class NeuralNetwork:
         index[0] = input number
         index[-1] = output number
         """
+        self._m=0
         if type(sizes) is not tuple:
             print("please input a tuple")
             raise Exception
@@ -98,6 +99,33 @@ class NeuralNetwork:
             aT=np.reshape(self._a[ind],(-1,1))
             deltaMat = np.reshape(delta[ind],(1,-1))
             self._deltas[ind] += np.matmul(aT,deltaMat)
+        self._m += 1
+    
+    def Derive(self,m,lam=0):
+        """
+        creates and returns partial derivatives to inform theta in whatever fasion
+        input m is number of data points
+            checked against internal counter for sanity
+        lam is lambda for regularization term
+        """
+        if m != self._m:
+            print("unmatching m values, call at end of epoch")
+            raise Exception
+        minv = 1/m
+        derivative = [None]*len(self._deltas)
+        for ind in range(len(self._deltas)):
+            # get the base derivative
+            derivative[ind]=self._deltas[ind]*minv
+            # get the regularization term
+            regularizer = self._thetas[ind]*lam
+            # remove the theta0's (0th row of each matrix)
+            regularizer[0] = np.zeros(len(regularizer[0]))
+            # apply the regularization term to the derivative
+            derivative[ind]+=regularizer
+        return derivative
+
+
+        
             
 
 if __name__ == "__main__":
@@ -123,3 +151,5 @@ if __name__ == "__main__":
     print(type(y1))
     print(y-y1)
     testNN.BackProp(y1,y)
+    deriva = testNN.Derive(1,1)
+    print(deriva)

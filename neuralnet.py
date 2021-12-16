@@ -55,8 +55,10 @@ class NeuralNetwork:
 if __name__ == "__main__":
     # test NN constructor
     testNN = NeuralNetwork((3,2,1))
+    """#------------
     for arr in testNN._thetas:
         print(arr.shape)
+    #"""#------------
     """#------------
     # test sigmoid
     x = np.linspace(-10,10,100)

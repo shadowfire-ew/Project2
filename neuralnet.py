@@ -69,9 +69,8 @@ if __name__ == "__main__":
     plt.ylabel("Sigmoid(X)")
     plt.show()
     #"""#------------
-    """#------------
     # test hypothesis
     x = np.array([0.6,0.9,0.1])
     y = testNN.Hypothesis(x)
     print(y)
-    #"""#------------
+    

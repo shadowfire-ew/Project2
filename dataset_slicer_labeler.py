@@ -46,16 +46,22 @@ class ImageSet:
     
     def getNextSlice(self):
         """
-        returns a slice and label of our loaded images
-        the slice will be an array of the size decided upon init
+        returns a slice and label of our loaded images \n
+        the slice will be an array of the size decided upon init \n
         the label will be one of two things:
             - the label for the center point if it is within one of our label polygons
-            - None for anything outside
-        after getting the slice, it will itterate the offset(s)
-        it will avoid corners/edges with missing peices
-        all slices will be centered within the cCenter image
-        will return None,None when it cannot get any more new slices
+            - None for anything outside \n
+        after getting the slice, it will itterate the offset(s) \n
+        it will avoid corners/edges with missing peices \n
+        all slices will be centered within the cCenter image \n
+        will return None,None when it cannot get any more new slices \n
         """
+        pos, label = self.getNextLabel()
+        if pos is None:
+            return None, None
+        slice = self._image[pos[0]:pos[0]+self._sliceSize,pos[1]:pos[1]+self._sliceSize]
+        return slice.flatten(), label
+        
     
     def getNextLabel(self):
         """
@@ -127,3 +133,5 @@ if __name__ == "__main__":
     print(m._data.name)
     pos,lab = m.getNextLabel()
     print(pos,lab)
+    arr,lab2 = m.getNextSlice()
+    print(arr,lab2)

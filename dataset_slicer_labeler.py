@@ -83,12 +83,21 @@ class ImageSet:
 
         # change the position
         # tranlsate x by step
-        # if we cannot do that:
-        #   we move y by step
-        #   we change the direction for x steps
-        # if that fails:
-        #   - set positions to None?
-        #   - restart image?
+        self._colOffset += self._sliceStep*self._coldir
+        # check the edges
+        tocheck = self._image.shape[1]
+        dist = tocheck-self._colOffset
+        # if we are too close to the edge of the matrix
+        if (dist < (self._sliceSize+self._sliceStep+1)) or (self._colOffset == 0):
+            # reverse direction for next time
+            self._coldir *= -1
+            # itterate y
+            self._rowOffset += self._sliceStep
+            # if the new y is over the limit, we exit
+            tocheck = self._image.shape[0]
+            dist = tocheck-self._rowOffset
+            if dist < (self._sliceSize+self._sliceStep+1):
+                return None,None
         return rtuple, rlabel
 
     def getCurrentOffset(self):
@@ -115,5 +124,7 @@ if __name__ == "__main__":
     pashape = labels.FindStateBoundaries("Pennsylvania")
     m.addLabel("pa",pashape)
     print("pa label done\nloading first image")
-    m.loadImage("n31w093")
+    m.loadImage("n41w077")
     print(m._data.name)
+    pos,lab = m.getNextLabel()
+    print(pos,lab)

@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import json
+from os.path import exists
 
 def sigmoid(val):
     return(1/(1+np.exp(-val)))
@@ -11,24 +13,30 @@ class NeuralNetwork:
     """
     def __init__(self,sizes=(1,1)):
         """
-        takes an input tuple of sizes
-        needs to be at least len 2
-        index[0] = input number
-        index[-1] = output number
+        takes an input tuple of sizes;
+        needs to be at least len 2:
+        - index[0] = input number
+        - index[-1] = output number
+        \n
+        if sizes is a string, the 
         """
         self._m=0
-        if type(sizes) is not tuple:
-            print("please input a tuple")
-            raise Exception
-        if len(sizes) < 2:
-            print("please input at least an input and output count")
-            raise Exception
-        self._inputnum = sizes[0]
-        self._thetas=[]
-        for ind in range((len(sizes)-1)):
-            # shaped specifically like this
-            # because im using 1XN array/matrix/list for input
-            self._thetas.append(np.random.rand(sizes[ind]+1,sizes[ind+1]))
+        if type(sizes) is str:
+            # attempt to load from file
+            self.LoadFromFile(sizes)
+        else:
+            if type(sizes) is not tuple:
+                print("please input a tuple or string")
+                raise TypeError
+            if len(sizes) < 2:
+                print("please input at least an input and output count")
+                raise Exception
+            self._inputnum = sizes[0]
+            self._thetas=[]
+            for ind in range((len(sizes)-1)):
+                # shaped specifically like this
+                # because im using 1XN array/matrix/list for input
+                self._thetas.append(np.random.rand(sizes[ind]+1,sizes[ind+1]))
         self._resetDeltas()
     
     def _resetDeltas(self):
@@ -139,6 +147,30 @@ class NeuralNetwork:
             raise Exception
         for i in range(len(self._thetas)):
             self._thetas[i] += derivative[i]*alpha
+    
+    def SaveToFile(self,fname):
+        tosave = []
+        for t in self._thetas:
+            tosave.append(t.tolist())
+        with open(fname, 'w+') as fhandle:
+            json.dump(tosave,fhandle)
+            fhandle.close()
+
+    def LoadFromFile(self,fname):
+        if not(exists(fname)):
+            print("file does not exist. will not attempt top load")
+            return
+        jsin = None
+        with open(fname, 'r') as fhandle:
+            jsin = json.load(fhandle)
+            fhandle.close()
+        if type(jsin) is not list:
+            print(type(jsin))
+        self._thetas = []
+        for mat in jsin:
+            self._thetas.append(np.array(mat))
+        self._inputnum = self._thetas[0].shape[0]-1
+        self._resetDeltas()
             
 
 if __name__ == "__main__":
@@ -174,3 +206,7 @@ if __name__ == "__main__":
     print("new hypothesis",y2)
     print("new dif",y-y2)
     print("differences in difs",(y-y1)-(y-y2))
+    print("saving to json file")
+    testNN.SaveToFile("testNN.json")
+    print("loading from json")
+    testNN.LoadFromFile("testNN.json")

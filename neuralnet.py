@@ -128,9 +128,7 @@ class NeuralNetwork:
         self._m=0
         self._resetDeltas()
         return derivative
-
-
-        
+ 
     def Descend(self,derivative,alpha):
         """
         applies gradient descent to thetas

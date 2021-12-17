@@ -8,6 +8,9 @@ other modules used that (can be installed with pip):
 - numpy
 - shapely
 - os
+- shutil
+- pandas
+- matplotlib (optional)
 - more to be added in time
 
 Note: Tensor Flow requires a version of numpy that breaks rasterio. upgrading numpy will fix this

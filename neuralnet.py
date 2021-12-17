@@ -171,6 +171,9 @@ class NeuralNetwork:
             self._thetas.append(np.array(mat))
         self._inputnum = self._thetas[0].shape[0]-1
         self._resetDeltas()
+
+    def GetThetas(self):
+        return self._thetas
             
 
 if __name__ == "__main__":

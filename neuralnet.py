@@ -56,9 +56,9 @@ class NeuralNetwork:
         """
         inlen = len(inarray.shape)
         if inlen == 1:
-            inlen = inlen[0]
+            inlen = inarray.shape[0]
         elif inlen == 2:
-            inlen = inlen[1]
+            inlen = inarray.shape[1]
         else:
             inlen=-1
             print("Wrong input shape, expecting m by {a}".format(self._inputnum))

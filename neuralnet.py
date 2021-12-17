@@ -56,14 +56,14 @@ class NeuralNetwork:
         """
         inlen = len(inarray.shape)
         if inlen == 1:
-            inlen = inarray[0]
+            inlen = inlen[0]
         elif inlen == 2:
-            inlen = inarray[1]
+            inlen = inlen[1]
         else:
             inlen=-1
-        if inarray.shape[0] != self._inputnum:
             print("Wrong input shape, expecting m by {a}".format(self._inputnum))
             raise Exception
+        if inlen != self._inputnum:
         # reset activations
         self._a=[None]*(len(self._thetas)+1)
         # pass inputs as activations

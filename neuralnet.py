@@ -60,7 +60,7 @@ class NeuralNetwork:
         else:
             inlen=-1
         if inlen != self._inputnum:
-            raise Exception("Wrong input shape, expecting m by {a}".format(self._inputnum))
+            raise Exception("Wrong input shape, expecting m/1 by {a}, got {b}".format(a=self._inputnum,b=inlen))
         # reset activations
         self._a=[None]*(len(self._thetas)+1)
         # pass inputs as activations

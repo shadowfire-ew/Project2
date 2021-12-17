@@ -187,7 +187,6 @@ class ImageSet:
         # if that fails:
         #   - set positions to None?
         #   - restart image?
-        # TODO: determine which thing to do. ask mina when possible
         return rtuple, rlabel, self._names[1][1].name
 
     def getCurrentOffset(self):

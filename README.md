@@ -16,3 +16,5 @@ other modules used that (can be installed with pip):
 Note: Tensor Flow requires a version of numpy that breaks rasterio. upgrading numpy will fix this
 
 state boundary information from [here](https://public.opendatasoft.com/explore/dataset/us-state-boundaries/information/)
+
+i will think about caching and other optimizations at another time

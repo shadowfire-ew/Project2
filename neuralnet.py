@@ -26,11 +26,9 @@ class NeuralNetwork:
             self.LoadFromFile(sizes)
         else:
             if type(sizes) is not tuple:
-                print("please input a tuple or string")
-                raise TypeError
+                raise TypeError("please input a tuple or string")
             if len(sizes) < 2:
-                print("please input at least an input and output count")
-                raise Exception
+                raise Exception("please input at least an input and output count in the tuple")
             self._inputnum = sizes[0]
             self._thetas=[]
             for ind in range((len(sizes)-1)):
@@ -61,9 +59,8 @@ class NeuralNetwork:
             inlen = inarray.shape[1]
         else:
             inlen=-1
-            print("Wrong input shape, expecting m by {a}".format(self._inputnum))
-            raise Exception
         if inlen != self._inputnum:
+            raise Exception("Wrong input shape, expecting m by {a}".format(self._inputnum))
         # reset activations
         self._a=[None]*(len(self._thetas)+1)
         # pass inputs as activations
@@ -91,8 +88,7 @@ class NeuralNetwork:
             accumulates delta
         """
         if hypothesis.shape != y.shape:
-            print("shapes do not match")
-            raise Exception
+            raise Exception("shapes do not match")
         # set up delta arrays (to inform self._deltas)
         delta = [0]*len(self._thetas)
         # get our last entry (cost of outputs)
@@ -117,8 +113,7 @@ class NeuralNetwork:
         lam is lambda for regularization term
         """
         if m != self._m:
-            print("unmatching m values, call at end of epoch")
-            raise Exception
+            raise Exception("unmatching m values, call at end of epoch")
         minv = 1/m
         derivative = [None]*len(self._deltas)
         for ind in range(len(self._deltas)):
@@ -143,8 +138,7 @@ class NeuralNetwork:
         then adds that to theta
         """  
         if len(derivative) != len(self._thetas):
-            print("Wrong derivative")
-            raise Exception
+            raise Exception("Wrong derivative")
         for i in range(len(self._thetas)):
             self._thetas[i] += derivative[i]*alpha
     

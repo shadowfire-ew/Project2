@@ -95,8 +95,16 @@ class ImageSet:
         # check the edges
         tocheck = self._image.shape[1]
         dist = tocheck-self._colOffset
+        tonextrow = False
         # if we are too close to the edge of the matrix
-        if (dist < (self._sliceSize+self._sliceStep+1)) or (self._colOffset == 0):
+        if (dist < (self._sliceSize+self._sliceStep+1)):
+            tonextrow = True
+            self._coldir = -1
+        elif (self._colOffset <= 0):
+            self._colOffset = 0
+            tonextrow = True
+            self._coldir = 1
+        if tonextrow:
             # reverse direction for next time
             self._coldir *= -1
             # itterate y

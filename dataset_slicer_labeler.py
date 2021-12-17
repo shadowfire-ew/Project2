@@ -43,6 +43,8 @@ class ImageSet:
         self._data = rio.open(pname)
         print("loading",self._data.name)
         self._image = self._data.read(1)
+        self._rowOffset = 0
+        self._colOffset = 0
     
     def getNextSlice(self):
         """

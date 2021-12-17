@@ -9,21 +9,17 @@ class ImageSet:
     this class will hold onto a set of images
     """
     def __init__(self,sliceSize, sliceStep):
-        # this array holds our numpy arrays of the images
-        self._images = [[None,None,None],
-                        [None,None,None],
-                        [None,None,None]]
+        # the numpy array of the image data
+        self._image=None
         
-        # this array holds our rasterio objects
-        self._names = [ [None,None,None],
-                        [None,None,None],
-                        [None,None,None]]
+        # the rasterio object associated with the object
+        self._data=None
         
         # our internal offset for position
-        # used as our center
+        # used as our top-left
         # technically stored as pixel location, but this is easy to convert to geo-coordinates
-        self._xOffset = 0
-        self._yOffset = 0
+        self._rowOffset = 0
+        self._colOffset = 0
 
         # the size of (one side of) our square slices (should be in pixels)
         self._sliceSize = sliceSize
@@ -34,116 +30,19 @@ class ImageSet:
         # our polygon lookup dict
         # used for labeling points
         self._labels={}
+
+        # our col traverse direction
+        # turns negative every time we hit the edge
+        self._coldir = 1
     
-    def loadGroup(self,name):
-        """
-        takes the name and loads it and the images next to it spatially
-        If the image name is already in our names list, we will shift their references
-        this would recenter our focused name and put Nones in the unloaded images' spaces
-        if the name is not in our names set, it will reload the entire array of images
-
-        name will be just the name as it appears in our names.txt
-        """
-        if self._names[1][1] is not None:
-            # when we already have loaded some info
-
-            # check to see if we already loaded the image
-            shift = None
-            for y in range(3):
-                brk = False
-                for x in range(3):
-                    if (self._names[y][x] is not None) and (name in self._names[y][x].name):
-                        brk = True
-                        xshift = -1*(x-1)
-                        yshift = -1*(y-1)
-                        shift = (xshift,yshift)
-                        break
-                if brk:
-                    break
-            # now that we have our offset, time to fix our arrays
-            if shift is not None:
-                # if we find that we already loaded the image we want
-                #print("shifting by {a}".format(a=shift))
-
-                if shift == (0,0):
-                    # in the odd case where we are trying to load the image that is already centered
-                    return
-                
-                # move the arrays over to temp holders (as python is a referential language)
-                tempnames = self._names
-                tempimages= self._images
-                # prep our new empty arrays
-                self._names= [[None,None,None],
-                              [None,None,None],
-                              [None,None,None]]
-                self._images= [[None,None,None],
-                              [None,None,None],
-                              [None,None,None]]
-                # a range for easy checking
-                t = range(3)
-                for y in t:
-                    for x in t:
-                        # get our destination according to the shift
-                        destX = x+shift[0]
-                        destY = y+shift[1]
-                        # check if we want to move to the destination
-                        if destY in t and destX in t:
-                            # copying the element reference from the original array to the new array in its new position
-                            self._names[destY][destX] = tempnames[y][x]
-                            self._images[destY][destX] = tempimages[y][x]
-                # after all that, we are have properly prepared the array for the next step
-                # forcing garbage collector to come through
-                tempnames=None
-                tempimages=None
-        else:
-            # this is the first array time loading the data
-            self._names[1][1] = rio.open(get_path(name))
-        
-        # checking that our names shifted correctly
-        #self._printLabels()
-
-        # here is where we open the neighbors that can and need to be loaded
-        cx = int(name[4:7])
-        cy = int(name[1:3])
-        for y in range(3):
-            for x in range(3):
-                if self._names[y][x] is None:
-                    # only when we have not found this neighbor
-                    # for x
-                    xdir = name[3] # the 'e' or 'w'
-                    xoff = x-1 # the base offset
-                    xoff = xoff * -1**(xdir=='w') # inverting our offset if we have 'w'
-                    xlab = xoff + cx # getting the new x
-                    # for y
-                    ydir = name[0] # the 'n' or 's'
-                    yoff = (y-1)
-                    yoff = yoff * -1**(ydir=='n') # inverting our offset if we have 'n'
-                    ylab = yoff + cy # getting the new y
-                    # after that math, we build our new name, formatted like
-                    nname = ydir + str(ylab).zfill(2) + xdir + str(xlab).zfill(3)
-                    # getting the relative path
-                    pname = get_path(nname)
-                    # only try to open the file if it exists
-                    if exists(pname):
-                        self._names[y][x] = rio.open(pname)
-
-        # here is where we open the images
-        for y in range(3):
-            for x in range(3):
-                if (self._names[y][x] is not None) and (self._images[y][x] is None):
-                    # we only want to try to lead images that exist and are not already loaded
-                    print(self._names[y][x].name,"loading")
-                    self._images[y][x] = self._names[y][x].read(1)
-
-        # reset our offsets
-        # this weird term means that only when there is nothing to the left or top of the image do we offset
-        """ i.e.
-        [[None,None,None],    xOffset = 0               [[Some,Some,None],    xOffset = 0
-         [Some,Some,Some], => |                     and  [Some,Some,None], => |
-         [Some,Some,Some]]    yOffset = sliceSize/2      [None,None,None]]    yOffset = 0
-        """
-        self._xOffset = self._sliceSize//2 * (self._names[1][0] is None or self._names[0][0] is None)
-        self._yOffset = self._sliceSize//2 * (self._names[0][1] is None or self._names[0][0] is None)
+    def loadImage(self,name):
+        pname = get_path(name)
+        if not exists(pname):
+            print(pname,"does not exist")
+            return
+        self._data = rio.open(pname)
+        print("loading",self._data.name)
+        self._image = self._data.read(1)
     
     def getNextSlice(self):
         """
@@ -160,18 +59,18 @@ class ImageSet:
     
     def getNextLabel(self):
         """
-        this function iterates our internal counters wthin getNextSlice
-        it returns 3 things:
-            - the internal offsets as a tuple
+        this function iterates our internal offsets
+        it returns 2 things:
+            - the internal offsets as a tuple (before itteration)
             - the label for those offsets
-            - the name of the file it belongs to
         
-        this function can also be called externally of getNextSlice for test data
+        this function can also be called externally of getNextSlice
+        this will skip the slice for now
         """
         # get the matrix location
-        rtuple = (self._xOffset,self._yOffset)
+        rtuple = (self._rowOffset,self._colOffset)
         # get the geopos location of our offset
-        centercoords = self._names[1][1].xy(self._yOffset,self._xOffset) #TODO: replace with method from rasterio
+        centercoords = self._data.xy(self._rowOffset,self._colOffset)
         # translate that to the label
         rlabel = None 
         # iterate through labeling shapes
@@ -181,6 +80,7 @@ class ImageSet:
                 rlabel = dlabel
                 break
         # if the loop goes all the way through, we do not have a label for the geopos
+
         # change the position
         # tranlsate x by step
         # if we cannot do that:
@@ -189,10 +89,10 @@ class ImageSet:
         # if that fails:
         #   - set positions to None?
         #   - restart image?
-        return rtuple, rlabel, self._names[1][1].name
+        return rtuple, rlabel
 
     def getCurrentOffset(self):
-        return self._xOffset,self._yOffset
+        return self._rowOffset,self._colOffset
     
     def addLabel(self,name,polygon):
         """
@@ -208,25 +108,12 @@ class ImageSet:
         else:
             raise TypeError
     
-    def _printLabels(self):
-        for y in range(3):
-            for x in range(3):
-                if self._names[y][x] is not None:
-                    print("m_{x},{y}:".format(x=x,y=y)+self._names[y][x].name, end="\t")
-                else:
-                    print("m_{x},{y}:".format(x=x,y=y)+str(self._names[y][x]), end="\t\t\t")
-            print()
 
 if __name__ == "__main__":
     m=ImageSet(50,33)
     print("adding pa label")
     pashape = labels.FindStateBoundaries("Pennsylvania")
     m.addLabel("pa",pashape)
-    print("pa label done. loading first group")
-    m.loadGroup("n31w093")
-    m._printLabels()
-    print("loading next group")
-    m.loadGroup("n32w093")
-    m._printLabels()
-    print("group testing done. testing labels")
-    print(m.getNextLabel())
+    print("pa label done\nloading first image")
+    m.loadImage("n31w093")
+    print(m._data.name)

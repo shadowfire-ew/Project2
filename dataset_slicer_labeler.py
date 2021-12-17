@@ -1,8 +1,9 @@
 import numpy as np
 import rasterio as rio
-import shapely as sly
+import shapely.geometry as geo
 from dataset_downloader import get_path
 from os.path import exists
+import labels
 class ImageSet:
     """
     this class will hold onto a set of images
@@ -131,6 +132,7 @@ class ImageSet:
             for x in range(3):
                 if (self._names[y][x] is not None) and (self._images[y][x] is None):
                     # we only want to try to lead images that exist and are not already loaded
+                    print(self._names[y][x].name,"loading")
                     self._images[y][x] = self._names[y][x].read(1)
 
         # reset our offsets
@@ -169,13 +171,13 @@ class ImageSet:
         # get the matrix location
         rtuple = (self._xOffset,self._yOffset)
         # get the geopos location of our offset
-        gpx,gpy = 0,0 #TODO: replace with method from rasterio
+        centercoords = self._names[1][1].xy(self._yOffset,self._xOffset) #TODO: replace with method from rasterio
         # translate that to the label
         rlabel = None 
         # iterate through labeling shapes
-        for dlabel in self._labels.keys:
-            #TODO: use correct shapely function for checking positions in shapes
-            if (self._labels[dlabel] == True):
+        for dlabel in self._labels.keys():
+            centerpoint = geo.Point(centercoords)
+            if (centerpoint.within(self._labels[dlabel])):
                 rlabel = dlabel
                 break
         # if the loop goes all the way through, we do not have a label for the geopos
@@ -200,7 +202,7 @@ class ImageSet:
             - name is str
             - polygon must be a polygon-like
         """
-        if (type(name) is str) and (type(polygon) is list):
+        if (type(name) is str) and (type(polygon) is geo.Polygon):
             # TODO: look into a dedicated polygon class which will determine point containment
             self._labels[name]=polygon
         else:
@@ -216,11 +218,15 @@ class ImageSet:
             print()
 
 if __name__ == "__main__":
-    print("\n\n")
-    m=ImageSet(100,33)
+    m=ImageSet(50,33)
+    print("adding pa label")
+    pashape = labels.FindStateBoundaries("Pennsylvania")
+    m.addLabel("pa",pashape)
+    print("pa label done. loading first group")
     m.loadGroup("n31w093")
     m._printLabels()
-    print()
+    print("loading next group")
     m.loadGroup("n32w093")
     m._printLabels()
-    print()
+    print("group testing done. testing labels")
+    print(m.getNextLabel())

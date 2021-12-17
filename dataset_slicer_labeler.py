@@ -111,8 +111,7 @@ class ImageSet:
             - name is str
             - polygon must be a polygon-like
         """
-        if (type(name) is str) and (type(polygon) is geo.Polygon):
-            # TODO: look into a dedicated polygon class which will determine point containment
+        if (type(polygon) is geo.Polygon):
             self._labels[name]=polygon
         else:
             raise TypeError

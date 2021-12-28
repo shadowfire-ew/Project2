@@ -78,7 +78,9 @@ class ImageSet:
         # get the matrix location
         rtuple = (self._rowOffset,self._colOffset)
         # get the geopos location of our offset
-        centercoords = self._data.xy(self._rowOffset,self._colOffset)
+        x = self._rowOffset + self._sliceSize//2
+        y = self._colOffset + self._sliceSize//2
+        centercoords = self._data.xy(x,y)
         # translate that to the label
         rlabel = None 
         # iterate through labeling shapes

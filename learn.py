@@ -106,6 +106,7 @@ if __name__ == "__main__":
     label = FindStateBoundaries("Pennsylvania")
     nnLearn,costs = Teach(fname,25,3000,0.1,5,0,[label],(100,75))
     nnLearn.SaveToFile("testNN2_gradientDecsentBoogaloo.json")
+    print(costs)
     plt.figure()
     plt.scatter(x=range(len(costs)),y=costs,color="red")
     plt.title("cost per epoch")

@@ -92,10 +92,12 @@ def Teach(fname,slice_size,slice_step,alpha,epochs,lam,labels,hidden_layers=()):
         costs.append(cost_left+cost_right)
         # early exit on cost increasing or negligible
         if i > 0:
-            if costs[i] >= costs[i-1]:
+            # the early exit conditions
+            if costs[i] >= (costs[i-1]+0.001):
+                # 0.0001 is buffer for "close enough"
                 print("Cost increasing or not changing. skipping descent and exiting...")
                 break
-            if costs[i] == 0:
+            if costs[i] <= 0.0001:
                 print("Cost has reached global minimum. skipping descent and exiting...")
                 break
         # get derivative

@@ -138,7 +138,7 @@ class NeuralNetwork:
         if len(derivative) != len(self._thetas):
             raise Exception("Wrong derivative")
         for i in range(len(self._thetas)):
-            self._thetas[i] -= derivative[i]*alpha
+            self._thetas[i] += derivative[i]*alpha
     
     def SaveToFile(self,fname):
         tosave = []

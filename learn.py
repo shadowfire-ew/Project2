@@ -111,13 +111,3 @@ if __name__ == "__main__":
     plt.scatter(x=range(len(costs)),y=costs,color="red")
     plt.title("cost per epoch")
     plt.savefig("testNNdescentCosts.png")
-    # notes:
-    # absolutely massive thetas (as expected)
-    # some warnings:
-    # one /0 warning
-    # one invalid value warning (next image)
-    # one overflow warning (much later in same epoch)
-    # no warnings in second epoch
-    # perhaps there is some way to combat these
-    # maybe increase default precision for numpy?
-    # another note: need to calculate costs change for earl exiting

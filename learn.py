@@ -8,6 +8,7 @@ from dataset_slicer_labeler import ImageSet
 from neuralnet import NeuralNetwork
 from labels import FindStateBoundaries
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def Teach(fname,slice_size,slice_step,alpha,epochs,lam,labels,hidden_layers=()):
@@ -103,8 +104,12 @@ def Teach(fname,slice_size,slice_step,alpha,epochs,lam,labels,hidden_layers=()):
 if __name__ == "__main__":
     fname = "panames.txt"
     label = FindStateBoundaries("Pennsylvania")
-    nnLearn,costs = Teach(fname,25,3000,0.1,2,0,[label],(100,75))
+    nnLearn,costs = Teach(fname,25,3000,0.1,5,0,[label],(100,75))
     nnLearn.SaveToFile("testNN2_gradientDecsentBoogaloo.json")
+    plt.figure()
+    plt.scatter(x=range(len(costs)),y=costs)
+    plt.title("costperepoch")
+    plt.savefig("testNNdescentCosts.png")
     # notes:
     # absolutely massive thetas (as expected)
     # some warnings:

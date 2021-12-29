@@ -78,7 +78,21 @@ def Teach(fname,slice_size,slice_step,alpha,epochs,lam,labels,hidden_layers=()):
             # end of file, go to next one
         # end of epoch
         # calc cost
+        # the output cost
+        cost_left = -1/(len(sumparts)) * np.sum(sumparts, axis=0)
+        # regularization cost
+        cost_right = 0
+        thetas = net.GetThetas()
+        for t in thetas:
+            cost_right += np.sum(t**2)
+        cost_right *= lam/(2*len(sumparts))
+        # full cost
+        costs.append(cost_left+cost_right)
         # early exit on cost increasing or negligible
+        if i > 0:
+            if costs[i-1]-costs[i]>0:
+                print("Cost increasing or not changing. skipping descent and exiting...")
+                break
         if checker: print("applying derivative in descent")
         # get derivative
         derivative = net.Derive(len(sumparts),lam)

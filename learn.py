@@ -69,10 +69,11 @@ def Teach(fname,slice_size,slice_step,alpha,epochs,lam,labels,hidden_layers=()):
                     print(cslice)
                     print(set._rowOffset,set._colOffset)
                     return
-                leftpart = np.log(hypo)*yarr
+                leftpart = np.nan_to_num(np.log(hypo)*yarr)
                 onesv = np.ones(hypo.shape)
-                rightpart = (onesv-y)*np.log(onesv-hypo)
-                sumparts.append(np.sum(leftpart+rightpart))
+                rightpart = np.nan_to_num((onesv-y)*np.log(onesv-hypo))
+                fullpart = leftpart+rightpart
+                sumparts.append(np.sum(fullpart))
                 # apply backprop
                 net.BackProp(hypo,yarr)
                 cslice,label = set.getNextSlice()

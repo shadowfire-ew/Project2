@@ -108,7 +108,7 @@ if __name__ == "__main__":
     nnLearn.SaveToFile("testNN2_gradientDecsentBoogaloo.json")
     plt.figure()
     plt.scatter(x=range(len(costs)),y=costs)
-    plt.title("costperepoch")
+    plt.title("cost per epoch")
     plt.savefig("testNNdescentCosts.png")
     # notes:
     # absolutely massive thetas (as expected)

@@ -44,7 +44,7 @@ def Teach(fname,slice_size,slice_step,alpha,epochs,lam,labels,hidden_layers=()):
     checker = False
     for i in range(epochs):
         if i%checkinterval== 0:
-            print("epoch #",i,i/epochs,"percent complete")
+            print("epoch #{a},".format(a=i),i/epochs,"percent complete")
             checker = True
         # go through all names
         sumparts = []

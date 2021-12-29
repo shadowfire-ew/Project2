@@ -62,11 +62,12 @@ def Teach(fname,slice_size,slice_step,alpha,epochs,lam,labels,hidden_layers=()):
                 yarr = np.array(y)
                 # apply forward and back prop
                 hypo=None
+                csliceflat=cslice.flatten()
                 try:
-                    hypo = net.ForwardProp(cslice)
+                    hypo = net.ForwardProp(csliceflat)
                 except Exception as err:
-                    print("recieved error {0}".format(err))
-                    print(cslice)
+                    print("recieved error:\n{0}".format(err))
+                    print(cslice.shape)
                     print(set._rowOffset,set._colOffset)
                     return
                 leftpart = np.nan_to_num(np.log(hypo)*yarr)

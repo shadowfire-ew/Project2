@@ -104,7 +104,7 @@ def Teach(fname,slice_size,slice_step,alpha,epochs,lam,labels,hidden_layers=()):
 if __name__ == "__main__":
     fname = "panames.txt"
     label = FindStateBoundaries("Pennsylvania")
-    nnLearn,costs = Teach(fname,25,3000,0.1,5,0,[label],(100,75))
+    nnLearn,costs = Teach(fname,25,3000,0.1,10,0,[label],(100,75))
     nnLearn.SaveToFile("testNN2_gradientDecsentBoogaloo.json")
     print(costs)
     plt.figure()

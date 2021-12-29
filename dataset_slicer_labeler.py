@@ -107,8 +107,6 @@ class ImageSet:
             tonextrow = True
             self._coldir = 1
         if tonextrow:
-            # reverse direction for next time
-            self._coldir *= -1
             # itterate y
             self._rowOffset += self._sliceStep
             # if the new y is over the limit, we exit

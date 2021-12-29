@@ -4,6 +4,7 @@ learns agains the full PA dataset
 from learn import Teach
 from labels import FindStateBoundaries
 import matplotlib.pyplot as plt
+import time
 
 if __name__ == "__main__":
     fname = "panames.txt"
@@ -14,8 +15,10 @@ if __name__ == "__main__":
     lam = 0.1
     labels = [FindStateBoundaries("Pennsylvania")]
     hidden_layers = (210,70,20)
+    start = time.time()
     nnPA,costs = Teach(fname,slice_size,slice_step,alpha,epochs,lam,labels,hidden_layers)
-    print("Learning done in {a} epochs".format(),a=len(costs))
+    total = (time.time()-start)/(3600)
+    print("Learning done in {a} epochs, {b} hours".format(),a=len(costs))
     sfname = "PAonlyNN.json"
     print("neural network saved to",sfname)
     nnPA.SaveToFile(sfname)

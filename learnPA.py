@@ -18,7 +18,7 @@ if __name__ == "__main__":
     start = time.time()
     nnPA,costs = Teach(fname,slice_size,slice_step,alpha,epochs,lam,labels,hidden_layers)
     total = (time.time()-start)/(3600)
-    print("Learning done in {a} epochs, {b} hours".format(),a=len(costs))
+    print("Learning done in {a} epochs, {b} hours".format(a=len(costs),b=total))
     sfname = "PAonlyNN.json"
     print("neural network saved to",sfname)
     nnPA.SaveToFile(sfname)

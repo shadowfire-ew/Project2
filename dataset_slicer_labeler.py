@@ -61,8 +61,8 @@ class ImageSet:
         pos, label = self.getNextLabel()
         if pos is None:
             return None, None
-        slice = self._image[pos[0]:pos[0]+self._sliceSize,pos[1]:pos[1]+self._sliceSize]
-        return slice.flatten(), label
+        part = self._image[pos[0]:pos[0]+self._sliceSize,pos[1]:pos[1]+self._sliceSize]
+        return part.flatten(), label
         
     
     def getNextLabel(self):

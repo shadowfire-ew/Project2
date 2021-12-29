@@ -94,7 +94,6 @@ def Teach(fname,slice_size,slice_step,alpha,epochs,lam,labels,hidden_layers=()):
             if costs[i]-costs[i-1]>=0:
                 print("Cost increasing or not changing. skipping descent and exiting...")
                 break
-        if checker: print("applying derivative in descent")
         # get derivative
         derivative = net.Derive(len(sumparts),lam)
         # apply derivative in gradient descent

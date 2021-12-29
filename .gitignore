@@ -2,3 +2,4 @@ rawdata/
 __pycache__/
 us-state-boundaries.csv
 *.json
+*.png

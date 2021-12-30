@@ -20,9 +20,12 @@ if __name__ == "__main__":
     total = (time.time()-start)/(3600)
     print("Learning done in {a} epochs, {b} hours".format(a=len(costs),b=total))
     sfname = "PAonlyNN.json"
-    print("neural network saved to",sfname)
     nnPA.SaveToFile(sfname)
+    print("neural network saved to",sfname)
+    ifname="PAonlyNNcosts.png"
     plt.figure()
     plt.scatter(x=range(len(costs)),y=costs)
     plt.title("cost per epoch")
-    plt.savefig("PAonlyNNcosts.png")
+    plt.savefig(ifname)
+    print("Cost Descent graph save to",ifname)
+    print("costs:",costs)

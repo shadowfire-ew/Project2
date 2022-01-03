@@ -1,5 +1,11 @@
 # Project2
-A repo to sync project 2 accross computers and share with professors
+My second school project
+Using a Neural Network to clasify croppings of geographic data
+Uses data from USGS
+
+*Warning* 
+dataset is large (>450GB) run dataset_downloader at your own risk
+alternatively, change the input file to only be a select number of images
 
 uses rasterio to read geotiff files
 download intructions [here](https://rasterio.readthedocs.io/en/latest/installation.html)
